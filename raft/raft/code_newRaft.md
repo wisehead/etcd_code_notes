@@ -35,5 +35,7 @@ newRaft
 	}
 --if !isHardStateEqual(hs, emptyState) {
 ----r.loadState(hs)	
-
+--if c.Applied > 0 {
+		raftlog.appliedTo(c.Applied)
+--r.becomeFollower(r.Term, None)
 ```
