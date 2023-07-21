@@ -77,4 +77,24 @@ raft::Step
 ------} else {
 			r.logger.Debugf("%x ignoring MsgHup because already leader", r.id)
 ------}	
+----case pb.MsgVote, pb.MsgPreVote:
+		// The m.Term > r.Term clause is for MsgPreVote. For MsgVote m.Term should
+		// always equal r.Term.
+		if (r.Vote == None || m.Term > r.Term || r.Vote == m.From) && r.raftLog.isUpToDate(m.Index, m.LogTerm) {
+			r.logger.Infof("%x [logterm: %d, index: %d, vote: %x] cast %s for %x [logterm: %d, index: %d] at term %d",
+				r.id, r.raftLog.lastTerm(), r.raftLog.lastIndex(), r.Vote, m.Type, m.From, m.LogTerm, m.Index, r.Term)
+			r.send(pb.Message{To: m.From, Type: voteRespMsgType(m.Type)})
+			if m.Type == pb.MsgVote {
+				// Only record real votes.
+				r.electionElapsed = 0
+				r.Vote = m.From
+			}
+		} else {
+			r.logger.Infof("%x [logterm: %d, index: %d, vote: %x] rejected %s from %x [logterm: %d, index: %d] at term %d",
+				r.id, r.raftLog.lastTerm(), r.raftLog.lastIndex(), r.Vote, m.Type, m.From, m.LogTerm, m.Index, r.Term)
+			r.send(pb.Message{To: m.From, Type: voteRespMsgType(m.Type), Reject: true})
+		}
+
+----default:
+		r.step(r, m)
 ```
