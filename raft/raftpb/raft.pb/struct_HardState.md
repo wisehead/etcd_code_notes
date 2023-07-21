@@ -9,3 +9,4 @@ type HardState struct {
 }
 
 ```
+

@@ -11,4 +11,5 @@ raftNode::replayWAL
 ------------serializedSnap.Unmarshal(b)
 ------------snap.Unmarshal(serializedSnap.Data)
 --w := rc.openWAL(snapshot)
+--_, st, ents, err := w.ReadAll()
 ```
