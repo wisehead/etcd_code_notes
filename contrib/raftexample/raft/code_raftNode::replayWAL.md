@@ -12,4 +12,7 @@ raftNode::replayWAL
 ------------snap.Unmarshal(serializedSnap.Data)
 --w := rc.openWAL(snapshot)
 --_, st, ents, err := w.ReadAll()
+--rc.raftStorage = raft.NewMemoryStorage()
+--if snapshot != nil {
+----rc.raftStorage.ApplySnapshot(*snapshot)
 ```
