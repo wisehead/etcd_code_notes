@@ -30,4 +30,10 @@ newRaft
 		preVote:          c.PreVote,
 		readOnly:         newReadOnly(c.ReadOnlyOption),
 	}
+--for _, p := range peers {
+		r.prs[p] = &Progress{Next: 1, ins: newInflights(r.maxInflight)}
+	}
+--if !isHardStateEqual(hs, emptyState) {
+----r.loadState(hs)	
+
 ```
