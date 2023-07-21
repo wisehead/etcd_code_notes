@@ -12,4 +12,6 @@ raft:campaign
 		voteMsg = pb.MsgVote
 		term = r.Term
 --}
+--if r.quorum() == r.poll(r.id, voteRespMsgType(voteMsg), true) {
+----
 ```
