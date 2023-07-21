@@ -17,4 +17,6 @@ StartNode
 --for _, peer := range peers {
 		r.addNode(peer.ID)
 	}
+--n := newNode()
+--go n.run(r)
 ```
