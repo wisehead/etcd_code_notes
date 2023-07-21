@@ -38,4 +38,8 @@ newRaft
 --if c.Applied > 0 {
 		raftlog.appliedTo(c.Applied)
 --r.becomeFollower(r.Term, None)
+--var nodesStrs []string
+--for _, n := range r.nodes() {
+		nodesStrs = append(nodesStrs, fmt.Sprintf("%x", n))
+	}
 ```
