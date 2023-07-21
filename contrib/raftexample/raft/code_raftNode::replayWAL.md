@@ -18,4 +18,10 @@ raftNode::replayWAL
 --rc.raftStorage.SetHardState(st)
 --// append to storage so raft starts at the right place in log
 --rc.raftStorage.Append(ents)
+--// send nil once lastIndex is published so client knows commit channel is current
+	if len(ents) > 0 {
+		rc.lastIndex = ents[len(ents)-1].Index
+	} else {
+		rc.commitC <- nil
+	}
 ```
