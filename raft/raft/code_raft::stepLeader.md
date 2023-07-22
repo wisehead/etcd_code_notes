@@ -25,4 +25,9 @@ raft::stepLeader
 		r.appendEntry(m.Entries...)
 		r.bcastAppend()
 		return
+----case pb.MsgReadIndex:
+------if r.quorum() > 1 {
+--------
+------} else {
+--------r.readStates = append(r.readStates, ReadState{Index: r.raftLog.committed, RequestCtx: m.Entries[0].Data})
 ```
